@@ -8,7 +8,7 @@ Implementing or hooking into third party platforms SDK can sometimes prove diffi
 
 `useThirdPartyBridge(eventKey, callback, logging = false)` hook aims to simplify this scenario with a fire-once approach to event based communcation, using [Mitt](https://github.com/developit/mitt).
 
-**Remember:** Practice pub/sub safely, useCommDom.
+https://github.com/chriseagle/react-3pp-bridge
 
 ### Usage
 
