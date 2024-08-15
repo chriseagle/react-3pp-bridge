@@ -33,7 +33,7 @@ export const ExampleComponent = () => {
   useEffect(() => {
     if (typeof window.thirdPartyLibrary !== 'undefined') {
       window.thirdPartyLibrary?.callbacks?.push(() => {
-        window.commDom.emit('event-key');
+        window._3pp.emit('event-key');
       });
     }
   }, []);

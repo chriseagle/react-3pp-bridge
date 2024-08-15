@@ -5,7 +5,7 @@ import mitt, { Emitter, EventType } from 'mitt';
 
 declare global {
   interface Window {
-    _3pp_bridge: Emitter<Record<EventType, unknown>>;
+    _3pp: Emitter<Record<EventType, unknown>>;
   }
 }
 
@@ -17,23 +17,23 @@ function useThirdPartyBridge(
   const [eventLog, setEventLog] = useState<string[]>([]);
 
   useEffect(() => {
-    window._3pp_bridge = window._3pp_bridge || mitt();
+    window._3pp = window._3pp || mitt();
   }, []);
 
   useEffect(() => {
     if (callback && !eventLog.includes(eventType)) {
       if (logging) {
-        console.log('React _3pp_bridge: subscribing to event', eventType);
+        console.log('React_3pp: subscribing to event', eventType);
       }
-      window._3pp_bridge.on(eventType, () => {
+      window._3pp.on(eventType, () => {
         callback();
         setEventLog((prev) => [...prev, eventType]);
       });
       return () => {
         if (logging) {
-          console.log('React _3pp_bridge: unsubscribing to event', eventType);
+          console.log('React_3pp: unsubscribing to event', eventType);
         }
-        window._3pp_bridge.off(eventType);
+        window._3pp.off(eventType);
       };
     }
   }, [eventType, callback, eventLog, logging]);
