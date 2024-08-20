@@ -1,0 +1,52 @@
+{
+  "name": "react-3pp-bridge",
+  "version": "0.0.2",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node esbuild.config.js && tsc --emitDeclarationOnly",
+    "build:publish": "pnpm run build && pnpm publish",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
+    "dev": "node esbuild.config.js --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [
+    "react",
+    "emitter",
+    "pub/sub",
+    "hooks",
+    "state management",
+    "event emitter",
+    "event driven"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "esbuild": "^0.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "react": "^18.3.1",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "mitt": "^3.0.1"
+  }
+}
