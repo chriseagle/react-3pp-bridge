@@ -1,6 +1,6 @@
 {
   "name": "react-3pp-bridge",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A React hook that aims to make event driven communication between React and Third Party Platform (3pp) DOM scripts more straight forward.",
   "type": "module",
   "main": "./dist/index.js",
