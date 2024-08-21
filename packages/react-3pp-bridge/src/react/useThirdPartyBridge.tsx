@@ -1,44 +1,43 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import mitt, { Emitter, EventType } from 'mitt';
 
 declare global {
   interface Window {
-    _3pp: Emitter<Record<EventType, unknown>>;
+    thirdpb: Emitter<Record<EventType, unknown>>;
   }
 }
 
-function useThirdPartyBridge(
-  eventType: string,
-  callback?: (data?: unknown) => void,
-  logging: boolean = false
-): [EventType[]] {
-  const [eventLog, setEventLog] = useState<string[]>([]);
-
+function useThirdPartyBridge(eventName: string): {
+  pub: () => void;
+  sub: (callback: (data?: any) => void) => void;
+} {
   useEffect(() => {
-    window._3pp = window._3pp || mitt();
+    window.thirdpb = window.thirdpb || mitt();
   }, []);
 
-  useEffect(() => {
-    if (callback && !eventLog.includes(eventType)) {
-      if (logging) {
-        console.log('React_3pp: subscribing to event', eventType);
-      }
-      window._3pp.on(eventType, () => {
-        callback();
-        setEventLog((prev) => [...prev, eventType]);
-      });
-      return () => {
-        if (logging) {
-          console.log('React_3pp: unsubscribing to event ', eventType);
-        }
-        window._3pp.off(eventType);
-      };
-    }
-  }, [eventType, callback, eventLog, logging]);
+  // Function to publish events
+  const pub = (data?: any) => {
+    window.thirdpb.emit(eventName, data);
+  };
 
-  return [eventLog];
+  // Function to subscribe to events
+  const sub = (callback: (data?: any) => void) => {
+    // Wrap the callback to ensure it’s only added once
+    const wrappedCallback = (data: any) => {
+      callback(data);
+    };
+
+    window.thirdpb.on(eventName, wrappedCallback);
+
+    // Cleanup on unmount to remove the listener
+    return () => {
+      window.thirdpb.off(eventName, wrappedCallback);
+    };
+  };
+
+  return { pub, sub };
 }
 
 export { useThirdPartyBridge };
