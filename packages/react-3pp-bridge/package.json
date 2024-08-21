@@ -1,7 +1,7 @@
 {
   "name": "react-3pp-bridge",
   "version": "0.0.2",
-  "description": "",
+  "description": "A React hook that aims to make event driven communication between React and Third Party Platform (3pp) DOM scripts more straight forward.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -14,8 +14,11 @@
     "build:publish": "pnpm run build && pnpm publish",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
-    "dev": "node esbuild.config.js --watch",
-    "check-types": "tsc --noEmit"
+    "dev:esbuild": "node esbuild.config.js --watch",
+    "dev:tsc": "tsc --watch --emitDeclarationOnly",
+    "dev": "npm-run-all --parallel dev:esbuild dev:tsc",
+    "format": "prettier --write .",
+    "check-exports": "attw --pack ."
   },
   "keywords": [
     "react",
@@ -26,9 +29,14 @@
     "event emitter",
     "event driven"
   ],
+  "homepage": "https://github.com/chriseagle/react-3pp-bridge",
+  "bugs": {
+    "url": "https://github.com/chriseagle/react-3pp-bridge/issues"
+  },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.4",
     "@types/react": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
@@ -47,6 +55,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "mitt": "^3.0.1"
+    "mitt": "^3.0.1",
+    "npm-run-all": "^4.1.5"
   }
 }
