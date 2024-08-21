@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useThirdPartyBridge } from "react-3pp-bridge";
 
 declare global {
@@ -13,13 +13,17 @@ const NAMESPACE = "FauxThirdPartyScriptCb";
 
 const PubSubComponent = () => {
   const { pub, sub } = useThirdPartyBridge("init");
+  const subscribed = useRef(false);
 
   useEffect(() => {
-    window[NAMESPACE] = window[NAMESPACE] || [];
-    window[NAMESPACE].push((dataFromThirdPartyEvent: any) => {
-      console.log("PubSubComponent pub callback", dataFromThirdPartyEvent);
-      pub();
-    });
+    if (!subscribed.current) {
+      window[NAMESPACE] = window[NAMESPACE] || [];
+      window[NAMESPACE].push((dataFromThirdPartyEvent: any) => {
+        console.log("PubSubComponent pub callback", dataFromThirdPartyEvent);
+        pub();
+      });
+      subscribed.current = true;
+    }
 
     const unsub = sub(() => {
       console.log("PubSubComponent sub callback");
